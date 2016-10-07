@@ -1,5 +1,7 @@
 from pyramid.view import view_config
 
+from .hydra_jobsets import HydraJobsets
+from .pr_merge import merge_push
 
 HELP = """
 Hi! I'm a bot that helps with reviewing and testing Nix code.
@@ -48,6 +50,7 @@ def github_webhook(request):
                 )
                 jobset = test_github_pr(
                     payload["issue"]["number"],
+                    request.registry.settings,
                     # TODO: support changing base
                     pr.repository[0],
                     pr.repository[1],
@@ -62,6 +65,9 @@ def github_webhook(request):
     return {}
 
 
-def test_github_pr(*a, **kw):
-    print(a, kw)
+def test_github_pr(pr_id, settings, *a, **kw):
+    jobsets = HydraJobsets(settings)
+    jobsets.add(pr_id)
+    merge_push(pr_id, settings)
+
     return "XXXurl"
