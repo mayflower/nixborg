@@ -3,20 +3,12 @@ import os.path
 import pygit2
 from pygit2 import RemoteCallbacks, UserPass, Signature
 
-def change_repo(repo, branch, commit_msg, priv_key, pub_key):
-    def temp():
-        pass
-
-    return temp, '../hydra-prs/'
-
 
 class HydraJobsets(object):
     BRANCH = 'master'
 
     def __init__(self, settings):
         self.repo = "https://github.com/" + settings['nixbot.hydra_jobsets_repo']
-        self.priv_key = settings['nixbot.hydra_jobsets_repo_priv_key']
-        self.pub_key = settings['nixbot.hydra_jobsets_repo_pub_key']
         self.user = settings['nixbot.bot_name']
         self.token = settings['nixbot.github_token']
         self.creds = RemoteCallbacks(UserPass(self.user, self.token))
