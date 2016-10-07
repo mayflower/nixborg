@@ -9,7 +9,7 @@ Getting Started
 
 - $ . bin/activate
 
-- $ pip install -e .
+- $ pip install -e . --pre
 
 - $ generate-github-token
 

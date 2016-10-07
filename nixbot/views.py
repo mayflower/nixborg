@@ -23,6 +23,7 @@ def github_webhook(request):
     TODO: use secret authenticate github using X-Hub-Signature
     """
     event = request.headers['X-GitHub-Event']
+    print(event)
     payload = request.json_body
     bot_name = request.registry.settings['nixbot.bot_name']
 
@@ -39,7 +40,6 @@ def github_webhook(request):
         if payload.get("action") in ["created", "edited"]:
             comment = payload['comment']['body'].strip()
             bot_prefix = '@{} '.format(bot_name)
-            repo = request.registry.gh.Repository(request.registry.settings['nixbot.repo'])
             # TODO: support merge
             if comment == (bot_prefix + "build"):
                 # TODO: this should ignore issues
@@ -48,7 +48,7 @@ def github_webhook(request):
                     payload["repository"]["name"],
                     payload["issue"]["number"]
                 )
-                if repo.is_collaborator(payload["comment"]["user"]["login"]):
+                if request.registry.repo.is_collaborator(payload["comment"]["user"]["login"]):
                     jobset = test_github_pr(
                         payload["issue"]["number"],
                         request.registry.settings,

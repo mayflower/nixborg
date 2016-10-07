@@ -13,26 +13,23 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('github-webhook', hook)
-    config.registry.gh = login(token=settings['nixbot.github_token'])
+    config.registry.gh = gh = login(token=settings['nixbot.github_token'])
+    config.registry.repo = repo = gh.repository(*settings['nixbot.repo'].split('/'))
     config.scan()
 
     # Subscribe for comments on startup
-    # using https://developer.github.com/v3/repos/hooks/#subscribing
     callback = settings['nixbot.public_url'] + hook
-    repo = settings['nixbot.repo']
-    print("Subscribing to repository {} at {}".format(repo, callback))
-    config.registry.gh.pubsubhubbub(
-        "subscribe",
-        repo + "/events/pull_request",
-        callback,
-        settings['nixbot.github_secret']
-    )
-    config.registry.gh.pubsubhubbub(
-        "subscribe",
-        repo + "/events/pull_request_review_comment",
-        callback,
-        settings['nixbot.github_secret']
-    )
+    print("Subscribing to repository {} at {}".format(repo.html_url, callback))
+    hooks = [h.config['url'] for h in repo.hooks()]
+    if not any(filter(lambda url: url == callback, hooks)):
+        repo.create_hook(
+            "web",
+            {
+                "url": callback,
+                "content_type": "json",
+            },
+            ["pull_request", "issue_comment"],
+        )
 
     return config.make_wsgi_app()
 
@@ -40,7 +37,7 @@ def main(global_config, **settings):
 def generate_github_token():
     user = ""
     password = ""
-    scopes = ['user', 'repo']
+    scopes = ['user', 'repo', 'write:repo_hook']
 
     while not user:
         user = input('User: ')
