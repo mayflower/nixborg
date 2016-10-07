@@ -48,16 +48,16 @@ def github_webhook(request):
                     payload["repository"]["name"],
                     payload["issue"]["number"]
                 )
-                jobset = test_github_pr(
-                    payload["issue"]["number"],
-                    request.registry.settings,
-                    # TODO: support changing base
-                    pr.repository[0],
-                    pr.repository[1],
-                    pr.head.user.login,
-                    pr.head.ref,
-                )
                 if repo.is_collaborator(payload["comment"]["user"]["login"]):
+                    jobset = test_github_pr(
+                        payload["issue"]["number"],
+                        request.registry.settings,
+                        # TODO: support changing base
+                        pr.repository[0],
+                        pr.repository[1],
+                        pr.head.user.login,
+                        pr.head.ref,
+                    )
                     pr.create_comment("Jobset created at {}".format(jobset))
                 else:
                     pr.create_comment("@{} is not a committer".format(payload["comment"]["user"]["login"]))
