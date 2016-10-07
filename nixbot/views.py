@@ -37,8 +37,9 @@ def github_webhook(request):
         if payload.get("action") in ["created", "edited"]:
             comment = payload['comment']['body'].strip()
             bot_prefix = '@{} '.format(bot_name)
+            repo = request.registry.gh.Repository(request.registry.settings['nixbot.repo'])
             # TODO: support merge
-            if comment == (bot_prefix + "build"):
+            if comment == (bot_prefix + "build") and repo.is_collaborator(payload["comment"]["user"]["login"]):
                 # TODO: this should ignore issues
                 pr = request.registry.gh.pull_request(
                     payload["repository"]["owner"]["login"],
