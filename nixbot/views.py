@@ -39,7 +39,7 @@ def github_webhook(request):
             bot_prefix = '@{} '.format(bot_name)
             repo = request.registry.gh.Repository(request.registry.settings['nixbot.repo'])
             # TODO: support merge
-            if comment == (bot_prefix + "build") and repo.is_collaborator(payload["comment"]["user"]["login"]):
+            if comment == (bot_prefix + "build"):
                 # TODO: this should ignore issues
                 pr = request.registry.gh.pull_request(
                     payload["repository"]["owner"]["login"],
@@ -54,7 +54,10 @@ def github_webhook(request):
                     pr.head.user.login,
                     pr.head.ref,
                 )
-                pr.create_comment("Jobset created at {}".format(jobset))
+                if repo.is_collaborator(payload["comment"]["user"]["login"]):
+                    pr.create_comment("Jobset created at {}".format(jobset))
+                else:
+                    pr.create_comment("@{} is not a committer".format(payload["comment"]["user"]["login"]))
 
     return {}
 
