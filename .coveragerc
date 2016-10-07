@@ -1,0 +1,3 @@
+[run]
+source = nixbot
+omit = nixbot/test*
