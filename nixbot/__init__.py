@@ -19,20 +19,20 @@ def main(global_config, **settings):
     # Subscribe for comments on startup
     # using https://developer.github.com/v3/repos/hooks/#subscribing
     callback = settings['nixbot.public_url'] + hook
-    for repo in settings['nixbot.repos'].split():
-        print("Subscribing to repository {} at {}".format(repo, callback))
-        config.registry.gh.pubsubhubbub(
-            "subscribe",
-            repo + "/events/pull_request",
-            callback,
-            settings['nixbot.github_secret']
-        )
-        config.registry.gh.pubsubhubbub(
-            "subscribe",
-            repo + "/events/pull_request_review_comment",
-            callback,
-            settings['nixbot.github_secret']
-        )
+    repo = settings['nixbot.repo']
+    print("Subscribing to repository {} at {}".format(repo, callback))
+    config.registry.gh.pubsubhubbub(
+        "subscribe",
+        repo + "/events/pull_request",
+        callback,
+        settings['nixbot.github_secret']
+    )
+    config.registry.gh.pubsubhubbub(
+        "subscribe",
+        repo + "/events/pull_request_review_comment",
+        callback,
+        settings['nixbot.github_secret']
+    )
 
     return config.make_wsgi_app()
 
