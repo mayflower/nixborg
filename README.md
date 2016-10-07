@@ -3,7 +3,9 @@ Github bot helping with reviewing/testing Pull Requests on Hydra.
 Getting Started
 ---------------
 
-- $ virtualenv-3.5 .
+- $ nix-shell -p python3 -p libgit2 -p libffi
+
+- $ pyvenv .
 
 - $ . bin/activate
 
