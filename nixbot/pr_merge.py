@@ -57,5 +57,3 @@ def merge_push(pr, settings):
     repo.state_cleanup()
 
     return repo
-
-merge_push(3)
