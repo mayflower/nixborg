@@ -39,6 +39,7 @@ class HydraJobsets(object):
             repo = pygit2.Repository(path)
             print('Repo already exists')
 
+        repo.remotes['origin'].fetch(callbacks=self.creds)
         repo.checkout('refs/heads/master')
         repo.reset(repo.lookup_reference('refs/remotes/origin/master').target, pygit2.GIT_RESET_HARD)
 
