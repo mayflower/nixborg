@@ -46,12 +46,10 @@ def merge_push(pr, settings):
     repo.state_cleanup()
 
     remote = repo.remotes['pr']
-    pr_branch = 'foo-{}'.format(pr)
-    repo.create_branch(pr_branch, repo.head.get_object())
+    pr_branch = 'pr-{}'.format(pr)
+    repo.create_branch(pr_branch, repo.head.get_object(), True)
     repo.checkout('refs/heads/{}'.format(pr_branch))
-    refspec = remote.get_refspec(1)
-    refspec.force = True
-    remote.push([refspec],
+    remote.push(['+refs/heads/{b}:refs/heads/{b}'.format(b=pr_branch)],
                 callbacks=creds)
 
     repo.state_cleanup()

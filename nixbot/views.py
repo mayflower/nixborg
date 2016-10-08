@@ -62,7 +62,7 @@ def github_webhook(request):
                 else:
                     pr.create_comment("@{} is not a committer".format(payload["comment"]["user"]["login"]))
 
-    return {}
+    return "ALARM"
 
 
 def test_github_pr(pr_id, settings, *a, **kw):

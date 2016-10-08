@@ -9,6 +9,7 @@ class HydraJobsets(object):
 
     def __init__(self, settings):
         self.repo = "https://github.com/" + settings['nixbot.hydra_jobsets_repo']
+        self.repo_path = settings['nixbot.repo_dir']
         self.user = settings['nixbot.bot_name']
         self.token = settings['nixbot.github_token']
         self.creds = RemoteCallbacks(UserPass(self.user, self.token))
@@ -28,7 +29,7 @@ class HydraJobsets(object):
             prs.remove(pr_name)
         self._save_prs(prs, repo, '{} removed'.format(pr_name))
 
-    def _fetch_prs(self, msg):
+    def _fetch_prs(self):
         path = os.path.join(self.repo_path, "hydra-prs.git")
         try:
             repo = pygit2.clone_repository(
@@ -59,3 +60,10 @@ class HydraJobsets(object):
             tree,
             [repo.head.target]
         )
+        repo.state_cleanup()
+
+        remote = repo.remotes[0]
+        remote.push(['refs/heads/master'], callbacks=self.creds)
+
+        repo.state_cleanup()
+
