@@ -52,22 +52,19 @@ def github_webhook(request):
                     jobset = test_github_pr(
                         payload["issue"]["number"],
                         request.registry.settings,
-                        # TODO: support changing base
-                        pr.repository[0],
-                        pr.repository[1],
-                        pr.head.user.login,
-                        pr.head.ref,
+                        # TODO support specifying base
+                        pr.base.ref
                     )
                     pr.create_comment("Jobset created at {}".format(jobset))
                 else:
                     pr.create_comment("@{} is not a committer".format(payload["comment"]["user"]["login"]))
 
-    return "ALARM"
+    return "Done"
 
 
-def test_github_pr(pr_id, settings, *a, **kw):
+def test_github_pr(pr_id, settings, base):
     jobsets = HydraJobsets(settings)
     jobsets.add(pr_id)
-    merge_push(pr_id, settings)
+    merge_push(pr_id, base, settings)
 
     return "XXXurl"

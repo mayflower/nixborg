@@ -3,7 +3,7 @@ import pygit2
 from pygit2 import Signature, UserPass, RemoteCallbacks
 
 
-def merge_push(pr, settings):
+def merge_push(pr, base, settings):
     MAIN_REPO = "https://github.com/" + settings['nixbot.repo']
     PR_REPO = "https://github.com/" + settings['nixbot.pr_repo']
     REPO_PATH = settings['nixbot.repo_dir']
@@ -27,9 +27,9 @@ def merge_push(pr, settings):
     try: repo.create_remote('pr', PR_REPO)
     except: pass
 
-    repo.checkout('refs/heads/master')
-    repo.reset(repo.lookup_reference('refs/remotes/origin/master').target, pygit2.GIT_RESET_HARD)
-    master = repo.lookup_branch('master')
+    repo.checkout('refs/heads/{}'.format(base))
+    repo.reset(repo.lookup_reference('refs/remotes/origin/{}'.format(base)).target, pygit2.GIT_RESET_HARD)
+    base = repo.lookup_branch('base')
 
     origin_pr = repo.lookup_reference('refs/remotes/origin/pr/{}'.format(pr))
     repo.merge(origin_pr.target)
@@ -37,7 +37,7 @@ def merge_push(pr, settings):
     author = Signature(settings['nixbot.bot_name'], 'bot@nixos.org')
     tree = repo.index.write_tree()
     repo.create_commit(
-        master.name,
+        base.name,
         author, author, 'Merge PR #{}'.format(pr),
         tree,
         [repo.head.target, origin_pr.target]
