@@ -1,4 +1,4 @@
-Github bot helping with reviewing/testing Pull Requests on Hydra.
+Gitub bot for reviewing/testing Pull Requests with the help of [Hydra](http://nixos.org/hydra/)
 
 Getting Started
 ---------------
@@ -16,6 +16,19 @@ Getting Started
 - $ vim development.ini
 
 - $ pserve development.ini
+
+Deployment
+----------
+
+Use `nixbot` NixOS module in nixpkgs.
+
+Features
+--------
+
+- build PRs given a jobset definition
+- (soon) use github status api to reflect build status
+- (soon) report build results compared to base branch
+- (soon) print evaluation report upon new pull request
 
 
 Workflow

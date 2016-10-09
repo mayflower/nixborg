@@ -10,7 +10,6 @@ def main(global_config, **settings):
     """
     hook = '/github-webhook'
     config = Configurator(settings=settings)
-    config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('github-webhook', hook)
     config.registry.gh = gh = login(token=settings['nixbot.github_token'])
