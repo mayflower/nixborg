@@ -1,4 +1,7 @@
-Gitub bot for reviewing/testing Pull Requests with the help of [Hydra](http://nixos.org/hydra/)
+nixbot
+======
+
+Github bot for reviewing/testing pull requests with the help of [Hydra](http://nixos.org/hydra/)
 
 Getting Started
 ---------------
@@ -15,8 +18,17 @@ Getting Started
 Deployment
 ----------
 
-Use `nixbot` NixOS module in nixpkgs.
+Use the `nixbot` NixOS module in nixpkgs.
 
+You need to set options for three repositories:
+ - repo: the repository to be checked for PRs
+ - prRepo: the repository used to create the branches in that hydra will test
+ - hydraJobsetsRepo: the repository containing the jobset definitions. *nixbot* will push
+   the branch names it will build to it. This repository needs to include the configs from
+   jobset-repo-tmpl adapted to your needs.
+
+The bot needs its own user account of which the token has to be set in `githubToken`,
+see the service options for further customisation.
 
 Features
 --------

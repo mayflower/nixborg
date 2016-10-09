@@ -1,0 +1,16 @@
+{
+    "enabled": 1,
+    "hidden": false,
+    "description": "Jobsets",
+    "nixexprinput": "src",
+    "nixexprpath": "jobsets.nix",
+    "checkinterval": 60,
+    "schedulingshares": 420,
+    "enableemail": false,
+    "emailoverride": "devnull@example.com",
+    "keepnr": 3,
+    "inputs": {
+        "src": { "type": "git", "value": "git://github.com/nixos/hydra-jobsets", "emailresponsible": false },
+        "nixpkgs": { "type": "git", "value": "git://github.com/nixos/nixpkgs.git", "emailresponsible": false }
+    }
+}
