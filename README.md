@@ -3,13 +3,7 @@ Gitub bot for reviewing/testing Pull Requests with the help of [Hydra](http://ni
 Getting Started
 ---------------
 
-- $ nix-shell -p python3 -p libgit2 -p libffi
-
-- $ pyvenv .
-
-- $ . bin/activate
-
-- $ pip install -e . --pre
+- $ nix-shell
 
 - $ generate-github-token
 
@@ -17,10 +11,12 @@ Getting Started
 
 - $ pserve development.ini
 
+
 Deployment
 ----------
 
 Use `nixbot` NixOS module in nixpkgs.
+
 
 Features
 --------
