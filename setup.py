@@ -9,7 +9,7 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'pyramid',
+    'flask',
     'waitress',
     'github3.py',
     'pygit2'
@@ -27,14 +27,13 @@ setup(name='nixbot',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
           "Programming Language :: Python",
-          "Framework :: Pyramid",
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
@@ -42,11 +41,4 @@ setup(name='nixbot',
           'testing': tests_require,
       },
       install_requires=requires,
-      entry_points="""\
-      [paste.app_factory]
-      main = nixbot:main
-
-      [console_scripts]
-         generate-github-token = nixbot:generate_github_token
-      """,
       )

@@ -1,0 +1,8 @@
+NIXBOT_GITHUB_TOKEN = '<insert github token>'
+NIXBOT_BOT_NAME = 'nixbot'
+NIXBOT_REPO = 'domenkozar/nixpkgs'
+NIXBOT_PR_REPO = 'nixos/nixpkgs-pr'
+NIXBOT_GITHUB_SECRET = 'justnotsorandom'
+NIXBOT_PUBLIC_URL = 'http://45b4a7ff.ngrok.io'
+NIXBOT_HYDRA_JOBSETS_REPO = 'nixos/hydra-jobsets'
+NIXBOT_REPO_DIR = '/tmp/nixbot/repositories'

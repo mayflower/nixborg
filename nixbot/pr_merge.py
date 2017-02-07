@@ -6,13 +6,13 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def merge_push(pr, base, settings):
-    MAIN_REPO = "https://github.com/" + settings['nixbot.repo']
-    PR_REPO = "https://github.com/" + settings['nixbot.pr_repo']
-    REPO_PATH = settings['nixbot.repo_dir']
+def merge_push(pr, base, config):
+    MAIN_REPO = "https://github.com/" + config.get('NIXBOT_REPO')
+    PR_REPO = "https://github.com/" + config.get('NIXBOT_PR_REPO')
+    REPO_PATH = config.get('NIXBOT_REPO_DIR')
 
-    user = settings['nixbot.bot_name']
-    token = settings['nixbot.github_token']
+    user = config.get('NIXBOT_BOT_NAME')
+    token = config.get('NIXBOT_GITHUB_TOKEN')
 
     creds = RemoteCallbacks(UserPass(user, token))
 
@@ -43,7 +43,7 @@ def merge_push(pr, base, settings):
     repo.merge(origin_pr.target)
 
     log.info('Commiting merge')
-    author = Signature(settings['nixbot.bot_name'], 'bot@nixos.org')
+    author = Signature(config.get('NIXBOT_BOT_NAME'), 'bot@nixos.org')
     tree = repo.index.write_tree()
     repo.create_commit(
         base.name,
