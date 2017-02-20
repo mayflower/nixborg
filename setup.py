@@ -12,7 +12,6 @@ requires = [
     'flask',
     'waitress',
     'github3.py',
-    'pygit2'
     ]
 
 tests_require = [

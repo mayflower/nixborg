@@ -62,12 +62,11 @@ def github_webhook():
             )
             # TODO: evaluate and report statistics
             # TODO: merge next line with mention-bot
-            pr.create_comment(HELP.format(bot_name=bot_name))
+            github_comment(pr, HELP.format(bot_name=bot_name))
     elif event == "issue_comment":
         if payload.get("action") in ["created", "edited"]:
             comment = payload['comment']['body'].strip()
             bot_prefix = '@{} '.format(bot_name)
-            # TODO: support merge
             if comment == (bot_prefix + "build"):
                 # TODO: this should ignore issues
                 pr = gh.pull_request(
@@ -78,15 +77,17 @@ def github_webhook():
                 if repo.is_collaborator(payload["comment"]["user"]["login"]):
                     jobset = test_github_pr(
                         payload["issue"]["number"],
-                        # TODO support specifying base
                         pr.base.ref
                     )
-                    pr.create_comment("Jobset created at {}".format(jobset))
+                    github_comment(pr, f'Jobset created at {jobset}')
                 else:
-                    pr.create_comment("@{} is not a committer".format(payload["comment"]["user"]["login"]))
+                    github_comment(pr, f'@{payload["comment"]["user"]["login"]} is not a committer')
 
     return "Ok"
 
+def github_comment(pr, body):
+    if app.config.get('NIXBOT_GITHUB_WRITE_COMMENTS'):
+        pr.create_comment(body)
 
 def test_github_pr(pr_id, base):
     jobsets = HydraJobsets(app.config)
