@@ -1,7 +1,7 @@
 # generated using pypi2nix tool (version: 1.8.0)
 #
 # COMMAND:
-#   pypi2nix -e ./[testing]#egg=nixbot -V 3.5 -v
+#   pypi2nix -e ./[testing]#egg=nixbot -V 3.6 -v
 #
 
 { pkgs, python, commonBuildInputs ? [], commonDoCheck ? false }:
@@ -60,46 +60,6 @@ self: {
 
 
 
-  "WebOb" = python.mkDerivation {
-    name = "WebOb-1.7.1";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c3/6f/fc168ab701ab8f3741ed0b1377edda676c3e7db61858cef1f72969413968/WebOb-1.7.1.tar.gz"; sha256 = "3b2e3e4a46ce92614fb7d85081a63d03fa0c714dbe0195d5d91ec0205526c83f"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."coverage"
-      self."pytest"
-      self."pytest-cov"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "WSGI request and response object";
-    };
-  };
-
-
-
-  "WebTest" = python.mkDerivation {
-    name = "WebTest-2.0.25";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d6/f4/604690ec18c0406be1a12f823be215c83be1ebe4cb4621195d366a3dde98/WebTest-2.0.25.tar.gz"; sha256 = "c81bdc2e869e42d2120ca4ef50db353cffb52065fcec852e94b2729b312ba548"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."WebOb"
-      self."beautifulsoup4"
-      self."coverage"
-      self."six"
-      self."waitress"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "Helper to test WSGI applications";
-    };
-  };
-
-
-
   "Werkzeug" = python.mkDerivation {
     name = "Werkzeug-0.11.15";
     src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fe/7f/6d70f765ce5484e07576313897793cb49333dd34e462488ee818d17244af/Werkzeug-0.11.15.tar.gz"; sha256 = "455d7798ac263266dbd38d4841f7534dd35ca9c3da4a8df303f8488f38f3bcc0"; };
@@ -115,31 +75,52 @@ self: {
 
 
 
-  "appdirs" = python.mkDerivation {
-    name = "appdirs-1.4.0";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/bd/66/0a7f48a0f3fb1d3a4072bceb5bbd78b1a6de4d801fb7135578e7c7b1f563/appdirs-1.4.0.tar.gz"; sha256 = "8fc245efb4387a4e3e0ac8ebcc704582df7d72ff6a42a53f5600bbb18fdaadc5"; };
+  "amqp" = python.mkDerivation {
+    name = "amqp-2.1.4";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/39/06bb8bd31e78962675f696498f7821f5dbd11aa0919c5a811d83a0e02609/amqp-2.1.4.tar.gz"; sha256 = "1378cc14afeb6c2850404f322d03dec0082d11d04bdcb0360e1b10d4e6e77ef9"; };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
+    propagatedBuildInputs = [
+      self."vine"
+    ];
     meta = with pkgs.stdenv.lib; {
       homepage = "";
-      license = licenses.mit;
-      description = "A small Python module for determining appropriate \" +         \"platform-specific dirs, e.g. a \"user data dir\".";
+      license = licenses.bsdOriginal;
+      description = "Low-level AMQP client for Python (fork of amqplib).";
     };
   };
 
 
 
-  "beautifulsoup4" = python.mkDerivation {
-    name = "beautifulsoup4-4.5.3";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/9b/a5/c6fa2d08e6c671103f9508816588e0fb9cec40444e8e72993f3d4c325936/beautifulsoup4-4.5.3.tar.gz"; sha256 = "b21ca09366fa596043578fd4188b052b46634d22059e68dd0077d9ee77e08a3e"; };
+  "billiard" = python.mkDerivation {
+    name = "billiard-3.5.0.2";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/e6/b8/6e6750f21309c21ea267834d5e76b89ce64a9ddf38fa4161fd6fb32ffc3b/billiard-3.5.0.2.tar.gz"; sha256 = "3eb01a8fe44116aa6d63d2010515ef1526e40caee5f766f75b2d28393332dcaa"; };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
     propagatedBuildInputs = [ ];
     meta = with pkgs.stdenv.lib; {
       homepage = "";
-      license = licenses.mit;
-      description = "Screen-scraping library";
+      license = licenses.bsdOriginal;
+      description = "Python multiprocessing fork with improvements and bugfixes";
+    };
+  };
+
+
+
+  "celery" = python.mkDerivation {
+    name = "celery-4.0.2";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b2/b7/888565f3e955473247aef86174db5121d16de6661b69bd8f3d10aff574f6/celery-4.0.2.tar.gz"; sha256 = "e3d5a6c56a73ff8f2ddd4d06dc37f4c2afe4bb4da7928b884d0725ea865ef54d"; };
+    doCheck = commonDoCheck;
+    buildInputs = commonBuildInputs;
+    propagatedBuildInputs = [
+      self."billiard"
+      self."kombu"
+      self."pytz"
+    ];
+    meta = with pkgs.stdenv.lib; {
+      homepage = "";
+      license = licenses.bsdOriginal;
+      description = "Distributed Task Queue.";
     };
   };
 
@@ -160,28 +141,12 @@ self: {
 
 
 
-  "coverage" = python.mkDerivation {
-    name = "coverage-4.3.4";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6e/33/01cb50da2d0582c077299651038371dba988248058e03c7a7c4be0c84c40/coverage-4.3.4.tar.gz"; sha256 = "eaaefe0f6aa33de5a65f48dd0040d7fe08cac9ac6c35a56d0a7db109c3e733df"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.asl20;
-      description = "Code coverage measurement for Python";
-    };
-  };
-
-
-
   "github3.py" = python.mkDerivation {
     name = "github3.py-0.9.6";
     src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c7/44/69354d18979a0f30b09ec391294798e96aa578665f3d1fea4377759e3b56/github3.py-0.9.6.tar.gz"; sha256 = "b831db85d7ff4a99d6f4e8368918095afeea10f0ec50798f9a937c830ab41dc5"; };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
     propagatedBuildInputs = [
-      self."pytest"
       self."requests"
     ];
     meta = with pkgs.stdenv.lib; {
@@ -208,6 +173,23 @@ self: {
 
 
 
+  "kombu" = python.mkDerivation {
+    name = "kombu-4.0.2";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c7/76/58c655a80bf08b703478ce673ed4e3029297105951863b73030d45b06b42/kombu-4.0.2.tar.gz"; sha256 = "d0fc6f2a36610a308f838db4b832dad79a681b516ac1d1a1f9d42edb58cc11a2"; };
+    doCheck = commonDoCheck;
+    buildInputs = commonBuildInputs;
+    propagatedBuildInputs = [
+      self."amqp"
+    ];
+    meta = with pkgs.stdenv.lib; {
+      homepage = "";
+      license = licenses.bsdOriginal;
+      description = "Messaging library for Python.";
+    };
+  };
+
+
+
   "nixbot" = python.mkDerivation {
     name = "nixbot-0.0";
     src = ./.;
@@ -215,10 +197,8 @@ self: {
     buildInputs = commonBuildInputs;
     propagatedBuildInputs = [
       self."Flask"
-      self."WebTest"
+      self."celery"
       self."github3.py"
-      self."pytest"
-      self."pytest-cov"
       self."waitress"
     ];
     meta = with pkgs.stdenv.lib; {
@@ -230,84 +210,16 @@ self: {
 
 
 
-  "packaging" = python.mkDerivation {
-    name = "packaging-16.8";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c6/70/bb32913de251017e266c5114d0a645f262fb10ebc9bf6de894966d124e35/packaging-16.8.tar.gz"; sha256 = "5d50835fdf0a7edf0b55e311b7c887786504efea1177abd7e69329a8e5ea619e"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."pyparsing"
-      self."six"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.bsdOriginal;
-      description = "Core utilities for Python packages";
-    };
-  };
-
-
-
-  "py" = python.mkDerivation {
-    name = "py-1.4.32";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/93/bd/8a90834a287e0c1682eab8e20ada672e4f4cf7d5b99f2833ddbf31ed1a6d/py-1.4.32.tar.gz"; sha256 = "c4b89fd1ff1162375115608d01f77c38cca1d0f28f37fd718005e19b28be41a7"; };
+  "pytz" = python.mkDerivation {
+    name = "pytz-2016.10";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/d0/e1/aca6ef73a7bd322a7fc73fd99631ee3454d4fc67dc2bee463e2adf6bb3d3/pytz-2016.10.tar.bz2"; sha256 = "7016b2c4fa075c564b81c37a252a5fccf60d8964aa31b7f5eae59aeb594ae02b"; };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
     propagatedBuildInputs = [ ];
     meta = with pkgs.stdenv.lib; {
       homepage = "";
       license = licenses.mit;
-      description = "library with cross-python path, ini-parsing, io, code, log facilities";
-    };
-  };
-
-
-
-  "pyparsing" = python.mkDerivation {
-    name = "pyparsing-2.1.10";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/38/bb/bf325351dd8ab6eb3c3b7c07c3978f38b2103e2ab48d59726916907cd6fb/pyparsing-2.1.10.tar.gz"; sha256 = "811c3e7b0031021137fc83e051795025fcb98674d07eb8fe922ba4de53d39188"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "Python parsing module";
-    };
-  };
-
-
-
-  "pytest" = python.mkDerivation {
-    name = "pytest-3.0.6";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/68/9c/c06dc051b39b817efd31e4c589df7780f7b287d96fab67e90be1f614fc0a/pytest-3.0.6.tar.gz"; sha256 = "643434a9f1a188271da35e20064cb8b6c5440976c5bb541dc7b5b0e3cf75d940"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."py"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "pytest: simple powerful testing with Python";
-    };
-  };
-
-
-
-  "pytest-cov" = python.mkDerivation {
-    name = "pytest-cov-2.4.0";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/00/c0/2bfd1fcdb9d407b8ac8185b1cb5ff458105c6b207a9a7f0e13032de9828f/pytest-cov-2.4.0.tar.gz"; sha256 = "53d4179086e1eec1c688705977387432c01031b0a7bd91b8ff6c912c08c3820d"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."coverage"
-      self."pytest"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.bsdOriginal;
-      description = "Pytest plugin for measuring coverage.";
+      description = "World timezone definitions, modern and historical";
     };
   };
 
@@ -328,21 +240,6 @@ self: {
 
 
 
-  "six" = python.mkDerivation {
-    name = "six-1.10.0";
-    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b3/b2/238e2590826bfdd113244a40d9d3eb26918bd798fc187e2360a8367068db/six-1.10.0.tar.gz"; sha256 = "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"; };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [ ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.mit;
-      description = "Python 2 and 3 compatibility utilities";
-    };
-  };
-
-
-
   "uritemplate" = python.mkDerivation {
     name = "uritemplate-2.0.0";
     src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ba/83/069aee6d676e890b638c7c7da60063ff6abce00b4bb59d9a9e6249131bfa/uritemplate-2.0.0.tar.gz"; sha256 = "c20c7e024535f9ef0130c5694159ce6210f703f8a7d813a602b020455052b5bf"; };
@@ -358,14 +255,27 @@ self: {
 
 
 
+  "vine" = python.mkDerivation {
+    name = "vine-1.1.3";
+    src = pkgs.fetchurl { url = "https://pypi.python.org/packages/35/21/308904b027636f13c3970ed7caf2c53fca77fa160122ae3ac392d9eb6307/vine-1.1.3.tar.gz"; sha256 = "87b95da19249373430a8fafca36f1aecb7aa0f1cc78545877857afc46aea2441"; };
+    doCheck = commonDoCheck;
+    buildInputs = commonBuildInputs;
+    propagatedBuildInputs = [ ];
+    meta = with pkgs.stdenv.lib; {
+      homepage = "";
+      license = licenses.bsdOriginal;
+      description = "Promises, promises, promises.";
+    };
+  };
+
+
+
   "waitress" = python.mkDerivation {
     name = "waitress-1.0.2";
     src = pkgs.fetchurl { url = "https://pypi.python.org/packages/cd/f4/400d00863afa1e03618e31fd7e2092479a71b8c9718b00eb1eeb603746c6/waitress-1.0.2.tar.gz"; sha256 = "c74fa1b92cb183d5a3684210b1bf0a0845fe8eb378fa816f17199111bbf7865f"; };
     doCheck = commonDoCheck;
     buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."coverage"
-    ];
+    propagatedBuildInputs = [ ];
     meta = with pkgs.stdenv.lib; {
       homepage = "";
       license = licenses.zpt21;

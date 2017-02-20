@@ -12,13 +12,10 @@ requires = [
     'flask',
     'waitress',
     'github3.py',
+    'celery'
     ]
 
-tests_require = [
-    'WebTest >= 1.3.1',  # py3 compat
-    'pytest',  # includes virtualenv
-    'pytest-cov',
-    ]
+tests_require = []
 
 setup(name='nixbot',
       version='0.0',
