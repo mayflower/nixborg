@@ -7,3 +7,6 @@ NIXBOT_REPO_DIR = '/tmp/nixbot/repositories'
 NIXBOT_GITHUB_TOKEN = '<insert github token>'
 NIXBOT_GITHUB_SECRET = 'justnotsorandom'
 NIXBOT_GITHUB_WRITE_COMMENTS = True
+NIXBOT_CELERY_BROKER_URL = 'redis://localhost:6379'
+NIXBOT_CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERYD_LOG_FORMAT = "[%(asctime)s: %(levelname)s/%(processName)s/%(name)s] %(message)s"

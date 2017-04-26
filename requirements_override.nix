@@ -9,4 +9,10 @@ self: super: {
     '';
   });
 
+  mccabe = python.overrideDerivation super.mccabe (old: {
+    propagatedNativeBuildInputs = old.propagatedNativeBuildInputs ++ [ self.pytest-runner ];
+  });
+  pytest-runner = python.overrideDerivation super.pytest-runner (old: {
+    propagatedNativeBuildInputs = old.propagatedNativeBuildInputs ++ [ self.setuptools-scm ];
+  });
 }

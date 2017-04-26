@@ -11,6 +11,6 @@ in python.overrideDerivation python.packages."nixbot" (old: {
     export FLASK_DEBUG=1
     export FLASK_APP=nixbot
     export APP='python -m flask run --reload'
-    $APP
+    echo 'Run $APP for the flask app'
   '';
 })

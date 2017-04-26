@@ -9,7 +9,7 @@ def merge_push(pr, base, config):
     USER = config.get('NIXBOT_BOT_NAME')
     TOKEN = config.get('NIXBOT_GITHUB_TOKEN')
     MAIN_REPO = "https://github.com/" + config.get('NIXBOT_REPO')
-    PR_REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBOT_PR_REPO')
+    PR_REPO = f"https://{TOKEN}@github.com/{config.get('NIXBOT_PR_REPO')}"
     REPO_PATH = config.get('NIXBOT_REPO_DIR')
 
     path = Path(REPO_PATH, "nixpkgs.git")

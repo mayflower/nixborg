@@ -10,12 +10,17 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'flask',
-    'waitress',
     'github3.py',
-    'celery'
-    ]
+    'celery',
+    'flower',
+    'redis',
+]
 
-tests_require = []
+tests_require = [
+  'pylint', 'mypy', 'pycodestyle',
+
+  'setuptools_scm', 'pytest-runner',  # FIXME needed for pypi2nix
+]
 
 setup(name='nixbot',
       version='0.0',
