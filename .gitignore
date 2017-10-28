@@ -2,3 +2,4 @@
 /nixbot.egg-info/
 /result
 __pycache__
+development.cfg

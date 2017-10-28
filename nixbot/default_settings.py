@@ -1,12 +1,12 @@
 NIXBOT_BOT_NAME = 'nixbot'
 NIXBOT_REPO = 'domenkozar/nixpkgs'
-NIXBOT_PR_REPO = 'nixos/nixpkgs-pr'
 NIXBOT_PUBLIC_URL = 'http://45b4a7ff.ngrok.io'
-NIXBOT_HYDRA_JOBSETS_REPO = 'nixos/hydra-jobsets'
-NIXBOT_REPO_DIR = '/tmp/nixbot/repositories'
+NIXBOT_REPO_DIR = '/var/lib/nixbot/repositories'
 NIXBOT_GITHUB_TOKEN = '<insert github token>'
 NIXBOT_GITHUB_SECRET = 'justnotsorandom'
 NIXBOT_GITHUB_WRITE_COMMENTS = True
 NIXBOT_CELERY_BROKER_URL = 'redis://localhost:6379'
 NIXBOT_CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERYD_LOG_FORMAT = "[%(asctime)s: %(levelname)s/%(processName)s/%(name)s] %(message)s"
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_DATABASE_URI = 'sqlite:///var/lib/nixbot/db.sqlite'

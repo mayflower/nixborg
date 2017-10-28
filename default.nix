@@ -11,6 +11,9 @@ in python.overrideDerivation python.packages."nixbot" (old: {
     export FLASK_DEBUG=1
     export FLASK_APP=nixbot
     export APP='python -m flask run --reload'
-    echo 'Run $APP for the flask app'
+    export CELERY='celery -A nixbot.celery worker -E -l INFO'
+    export FLOWER='celery -A nixbot.celery flower'
+    echo 'Run $APP for the flask app, $CELERY for the celery worker'
+    echo 'Run $FLOWER for the celery flower webmonitoring'
   '';
 })

@@ -1,6 +1,8 @@
 from getpass import getpass
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 from .celery import make_celery
 from .views import github_hook
@@ -10,9 +12,12 @@ app = Flask(__name__)
 app.config.from_object('nixbot.default_settings')
 app.config.from_envvar('NIXBOT_SETTINGS')
 
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 celery = make_celery(app)
 
 import nixbot.tasks
+import nixbot.models
 
 app.register_blueprint(github_hook)
 
@@ -20,6 +25,9 @@ app.register_blueprint(github_hook)
 @app.route('/')
 def root():
     return ''
+
+if __name__ == '__main__':
+    app.run()
 
 
 # def main(global_config, **settings):

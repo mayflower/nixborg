@@ -10,6 +10,8 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'flask',
+    'flask_migrate',
+    'flask_sqlalchemy',
     'github3.py',
     'celery',
     'flower',
