@@ -1,10 +1,9 @@
-{ pkgs ? import <nixpkgs> {}
-}:
+with import <nixpkgs> {};
 
-let
-  python = import ./requirements.nix { inherit pkgs; };
-in python.overrideDerivation python.packages."nixbot" (old: {
-  shellHook = old.shellHook + ''
+pkgs.nixbot.overrideAttrs (oldAttrs: {
+  src = ./.;
+
+  shellHook = oldAttr.shellHook + ''
     export LC_ALL=en_US.utf8
     export PATH=${pkgs.git}/bin:$PATH
     export NIXBOT_SETTINGS=${./development.cfg}
