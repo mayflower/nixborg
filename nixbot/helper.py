@@ -1,5 +1,4 @@
-from github3 import login
-
+from github import Github
 
 def gh_login(token):
-    return login(token=token)
+    return Github(token)

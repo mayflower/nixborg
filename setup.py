@@ -12,9 +12,9 @@ requires = [
     'flask',
     'flask_migrate',
     'flask_sqlalchemy',
-    'github3.py',
+    'PyGithub',
     'celery',
-    'flower',
+    #'flower',
     'redis',
 ]
 

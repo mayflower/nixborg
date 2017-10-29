@@ -19,13 +19,11 @@ def github_webhook():
     # TODO: use secret authenticate github using X-Hub-Signature
 
     from . import app
-    from .tasks import github_comment, test_github_pr
+    from .tasks import github_comment, test_github_pr, issue_commented
 
     event = request.headers['X-GitHub-Event']
     payload = request.get_json()
     bot_name = app.config.get('NIXBOT_BOT_NAME')
-    gh = gh_login(app.config.get('NIXBOT_GITHUB_TOKEN'))
-    repo = gh.repository(*app.config.get('NIXBOT_REPO').split('/'))
 
     if event == "pull_request":
         if payload.get("action") in ["opened", "reopened", "edited"]:
@@ -38,18 +36,6 @@ def github_webhook():
             # TODO: merge next line with mention-bot
             github_comment.delay(pr_info, HELP.format(bot_name=bot_name))
     elif event == "issue_comment":
-        if payload.get("action") in ["created", "edited"]:
-            comment = payload['comment']['body'].strip()
-            if comment == (f'@{bot_name} build'):
-                # TODO: this should ignore issues
-                pr_info = (
-                    payload["repository"]["owner"]["login"],
-                    payload["repository"]["name"],
-                    payload["issue"]["number"]
-                )
-                if repo.is_collaborator(payload["comment"]["user"]["login"]):
-                    test_github_pr.delay(pr_info)
-                else:
-                    github_comment.delay(pr_info, f'@{payload["comment"]["user"]["login"]} is not a committer')
+        issue_commented.delay(payload)
 
     return "Ok"

@@ -8,7 +8,9 @@ class HydraJobsets(object):
         self.repo = "https://github.com/" + config.get('NIXBOT_REPO')
 
     def add(self, pr_id):
-        subprocess.call(
-            ['hydra-create-jobset', f'--url {self.repo}', f'--ref pr-{pr_id}', f'--pull-request {pr_id}'],
-            stderr=subprocess.STDOUT
+        subprocess.run(
+            f'hydra-create-jobset nixos --trigger --url {self.repo} --ref pr-{pr_id} --pull-request {pr_id} --nixexpr-path nixos/release-small.nix',
+            stderr=subprocess.STDOUT,
+            check=True,
+            shell=True
         )

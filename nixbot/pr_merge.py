@@ -38,7 +38,7 @@ def merge_push(pr, base, config):
 
 def logged_call(args):
     try:
-        subprocess.check_call(args, shell=True)
+        subprocess.run(args, check=True, shell=True)
     except Exception as e:
         log.error(f'Failed to execute command: {args}')
         log.error(e)
