@@ -1,4 +1,6 @@
-from flask import request, Blueprint
+import hashlib
+import hmac
+from flask import abort, request, Blueprint
 
 from .helper import gh_login
 
@@ -15,11 +17,14 @@ github_hook = Blueprint('github_hook', __name__)
 
 @github_hook.route('/github-webhook', methods=['POST'])
 def github_webhook():
-    # https://developer.github.com/webhooks/
-    # TODO: use secret authenticate github using X-Hub-Signature
-
     from . import app
     from .tasks import github_comment, test_github_pr, issue_commented
+
+    signature = request.headers['X-Hub-Signature']
+    key = app.config.get('NIXBOT_GITHUB_SECRET').encode('utf-8')
+    comp_signature = "sha1=" + hmac.new(key, request.get_data(), hashlib.sha1).hexdigest()
+    if not hmac.compare_digest(signature.encode('utf-8'), comp_signature.encode('utf-8')):
+        abort(403)
 
     event = request.headers['X-GitHub-Event']
     payload = request.get_json()
