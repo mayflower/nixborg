@@ -1,4 +1,4 @@
-from getpass import getpass
+import logging
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -11,6 +11,14 @@ from .views import github_hook
 app = Flask(__name__)
 app.config.from_object('nixbot.default_settings')
 app.config.from_envvar('NIXBOT_SETTINGS')
+app.logger.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    '{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
+)
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+handler.setLevel(logging.INFO)
+app.logger.addHandler(handler)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
