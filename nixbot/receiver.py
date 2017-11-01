@@ -19,10 +19,10 @@ logger = logging.getLogger(__name__)
 
 
 def add_jobset(project, jobset, repo, ref, nixexpr_path, disabled=False, hidden=False):
-    disabled_flag = '--disabled ' if disabled else ''
+    disabled_flag = '--disabled ' if disabled else '--trigger'
     hidden_flag = '--hidden' if hidden else ''
     result = subprocess.run(
-        f'hydra-update-jobset {quote(project)} {quote(jobset)} --trigger --url {quote(repo)} --ref {quote(ref)}' +
+        f'hydra-update-jobset {quote(project)} {quote(jobset)} --url {quote(repo)} --ref {quote(ref)} ' +
         f'--nixexpr-path {quote(nixexpr_path)} {disabled_flag} {hidden_flag}',
         shell=True,
         stdout=subprocess.PIPE,
