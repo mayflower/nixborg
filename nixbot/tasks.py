@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 from . import app, celery
@@ -19,26 +20,30 @@ def github_comment(args, pr_info, body):
 
 
 @celery.task()
-def test_github_pr(pr_info):
+def test_github_pr(pr_info, comment_time):
+    owner, repo, number = pr_info
     gh = gh_login(app.config.get('NIXBOT_GITHUB_TOKEN'))
     pr = gh.get_repo(f'{owner}/{repo}').get_pull(number)
-    merge_push_task.delay(pr_info, pr.base.ref)
+
+    if datetime.strptime(comment_time, '%Y-%m-%dT%H:%M:%SZ') < pr.head.repo.pushed_at:
+        raise(Exception('Comment is older than PR'))
+
+    merge_push_task.delay(pr_info, pr.head.sha, pr.base.ref)
 
 
 @celery.task
 def add_hydra_jobset(pr_id):
     jobsets = HydraJobsets(app.config)
-    jobsets.add(pr_id)
-
-    return ['URL']
+    return [jobsets.add(pr_id)]
 
 
 @celery.task
-def merge_push_task(pr_info, base):
+def merge_push_task(pr_info, ref, base):
     owner, repo, number = pr_info
-    merge_push(number, base, app.config)
-    (add_hydra_jobset.s(pr_id) |
+    merge_push(number, ref, base, app.config)
+    (add_hydra_jobset.s(number) |
         github_comment.s(pr_info, 'Jobset created at {}'))()
+
 
 @celery.task
 def issue_commented(payload):
@@ -57,7 +62,6 @@ def issue_commented(payload):
         gh = gh_login(app.config.get('NIXBOT_GITHUB_TOKEN'))
         repo = gh.get_repo(app.config.get('NIXBOT_REPO'))
         if repo.has_in_collaborators(payload["comment"]["user"]["login"]):
-            test_github_pr.delay(pr_info)
+            test_github_pr.delay(pr_info, payload['comment']['updated_at'])
         else:
             github_comment.delay((), pr_info, f'@{payload["comment"]["user"]["login"]} is not a committer')
-

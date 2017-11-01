@@ -5,7 +5,7 @@ import subprocess
 log = logging.getLogger(__name__)
 
 
-def merge_push(pr, base, config):
+def merge_push(pr, ref, base, config):
     USER = config.get('NIXBOT_BOT_NAME')
     TOKEN = config.get('NIXBOT_GITHUB_TOKEN')
     REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBOT_REPO')
@@ -26,8 +26,8 @@ def merge_push(pr, base, config):
     logged_call(f'{GIT} config --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"')
     logged_call(f'{GIT} fetch origin')
 
-    log.info(f'Checking out PR {pr}')
-    logged_call(f'{GIT} branch -f pr-{pr} origin/pr/{pr}')
+    log.info(f'Checking out PR {pr} at ref {ref}')
+    logged_call(f'{GIT} branch -f pr-{pr} {ref}')
     log.info(f'Rebasing PR on top of {base}')
     logged_call(f'{GIT} rebase --abort || true')
     logged_call(f'{GIT} rebase origin/{base}')

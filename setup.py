@@ -16,6 +16,7 @@ requires = [
     'celery',
     #'flower',
     'redis',
+    'requests',
 ]
 
 tests_require = [
@@ -33,6 +34,11 @@ setup(name='nixbot',
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
+      entry_points={
+          'console_scripts': [
+              'nixbot-receiver = nixbot.receiver:main',
+          ]
+      },
       author='',
       author_email='',
       url='',

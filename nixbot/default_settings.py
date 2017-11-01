@@ -1,7 +1,9 @@
 NIXBOT_BOT_NAME = 'nixbot'
-NIXBOT_REPO = 'domenkozar/nixpkgs'
-NIXBOT_PUBLIC_URL = 'http://45b4a7ff.ngrok.io'
+NIXBOT_REPO = 'nixos/nixpkgs'
+NIXBOT_PUBLIC_URL = 'https://bot.nixos.community'
 NIXBOT_REPO_DIR = '/var/lib/nixbot/repositories'
+NIXBOT_HYDRA_PROJECT = 'nixos'
+NIXBOT_NIXEXPR_PATH = 'nixos/release-small.nix'
 NIXBOT_GITHUB_TOKEN = '<insert github token>'
 NIXBOT_GITHUB_SECRET = 'justnotsorandom'
 NIXBOT_GITHUB_WRITE_COMMENTS = True
