@@ -1,5 +1,7 @@
 import hashlib
 import hmac
+import logging
+
 from flask import abort, request, Blueprint
 
 from .helper import gh_login
@@ -12,6 +14,7 @@ Commands:
 - `@{bot_name} build` creates a new Hydra jobset and reports results
 """
 
+log = logging.getLogger(__name__)
 github_hook = Blueprint('github_hook', __name__)
 
 
@@ -24,11 +27,18 @@ def github_webhook():
     key = app.config.get('NIXBOT_GITHUB_SECRET').encode('utf-8')
     comp_signature = "sha1=" + hmac.new(key, request.get_data(), hashlib.sha1).hexdigest()
     if not hmac.compare_digest(signature.encode('utf-8'), comp_signature.encode('utf-8')):
+        log.error(f'HMAC of github webhook is incorrect')
         abort(403)
 
     event = request.headers['X-GitHub-Event']
     payload = request.get_json()
     bot_name = app.config.get('NIXBOT_BOT_NAME')
+
+    repo = payload['repository']['full_name']
+    configured_repo = app.config.get('NIXBOT_REPO')
+    if repo != configured_repo:
+        log.error(f'Repository `{repo}` does not match configured `{configured_repo}`')
+        abort(400)
 
     if event == "pull_request":
         if payload.get("action") in ["opened", "reopened", "edited"]:
