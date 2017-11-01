@@ -1,9 +1,9 @@
 with import <nixpkgs> {};
 
-pkgs.nixbot.overrideAttrs (oldAttrs: {
+pkgs.nixbot.server.overrideAttrs (oldAttrs: {
   src = ./.;
 
-  shellHook = oldAttr.shellHook + ''
+  shellHook = oldAttrs.shellHook + ''
     export LC_ALL=en_US.utf8
     export PATH=${pkgs.git}/bin:$PATH
     export NIXBOT_SETTINGS=${./development.cfg}
