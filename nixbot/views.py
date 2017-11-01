@@ -4,6 +4,7 @@ import hmac
 from flask import abort, request, Blueprint
 
 from .helper import gh_login
+from .hydra_jobsets import HydraJobsets
 
 HELP = """
 Hi! I'm a bot that helps with reviewing and testing Nix code.
@@ -35,19 +36,23 @@ def github_webhook():
     repo = payload['repository']['full_name']
     configured_repo = app.config.get('NIXBOT_REPO')
     if repo != configured_repo:
-        log.error(f'Repository `{repo}` does not match configured `{configured_repo}`')
+        app.logger.error(f'Repository `{repo}` does not match configured `{configured_repo}`')
         abort(400)
 
     if event == "pull_request":
+        pr_id = payload["pull_request"]["number"]
         if payload.get("action") in ["opened", "reopened", "edited"]:
             pr_info = (
                 payload["pull_request"]["base"]["repo"]["owner"]["login"],
                 payload["pull_request"]["base"]["repo"]["name"],
-                payload["pull_request"]["number"]
+                pr_id
             )
             # TODO: evaluate and report statistics
             # TODO: merge next line with mention-bot
-            github_comment.delay(pr_info, HELP.format(bot_name=bot_name))
+            # github_comment.delay(pr_info, HELP.format(bot_name=bot_name))
+        if payload.get("action") in ["closed", "merged"]:
+            jobsets = HydraJobsets(app.config)
+            jobsets.remove(pr_id)
     elif event == "issue_comment":
         issue_commented.delay(payload)
 
