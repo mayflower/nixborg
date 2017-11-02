@@ -9,8 +9,8 @@ from .views import github_hook
 
 
 app = Flask(__name__)
-app.config.from_object('nixbot.default_settings')
-app.config.from_envvar('NIXBOT_SETTINGS')
+app.config.from_object('nixborg.default_settings')
+app.config.from_envvar('NIXBORG_SETTINGS')
 app.logger.setLevel(logging.INFO)
 formatter = logging.Formatter(
     '{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
@@ -24,8 +24,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 celery = make_celery(app)
 
-import nixbot.tasks
-import nixbot.models
+import nixborg.tasks
+import nixborg.models
 
 app.register_blueprint(github_hook)
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
 
 # def main(global_config, **settings):
-#     callback = settings['nixbot.public_url'] + hook
+#     callback = settings['nixborg.public_url'] + hook
 #     print("Subscribing to repository {} at {}".format(repo.html_url, callback))
 #     hooks = [h.config['url'] for h in repo.hooks()]
 #     if not any(filter(lambda url: url == callback, hooks)):

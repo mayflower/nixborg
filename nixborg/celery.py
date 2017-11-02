@@ -3,8 +3,8 @@ from celery import Celery
 def make_celery(app):
     celery = Celery(
         app.import_name,
-        backend=app.config['NIXBOT_CELERY_RESULT_BACKEND'],
-        broker=app.config['NIXBOT_CELERY_BROKER_URL'],
+        backend=app.config['NIXBORG_CELERY_RESULT_BACKEND'],
+        broker=app.config['NIXBORG_CELERY_BROKER_URL'],
     )
     celery.conf.update(app.config)
     TaskBase = celery.Task

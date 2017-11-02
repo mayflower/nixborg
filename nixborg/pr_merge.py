@@ -6,11 +6,11 @@ log = logging.getLogger(__name__)
 
 
 def merge_push(pr, ref, base, config):
-    USER = config.get('NIXBOT_BOT_NAME')
-    TOKEN = config.get('NIXBOT_GITHUB_TOKEN')
-    REPO = f"https://github.com/" + config.get('NIXBOT_REPO')
-    PR_REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBOT_PR_REPO')
-    REPO_PATH = config.get('NIXBOT_REPO_DIR')
+    USER = config.get('NIXBORG_BOT_NAME')
+    TOKEN = config.get('NIXBORG_GITHUB_TOKEN')
+    REPO = f"https://github.com/" + config.get('NIXBORG_REPO')
+    PR_REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBORG_PR_REPO')
+    REPO_PATH = config.get('NIXBORG_REPO_DIR')
 
     path = Path(REPO_PATH, "nixpkgs.git")
 

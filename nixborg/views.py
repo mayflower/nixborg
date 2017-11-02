@@ -23,7 +23,7 @@ def github_webhook():
     from .tasks import github_comment, test_github_pr, issue_commented
 
     signature = request.headers['X-Hub-Signature']
-    key = app.config.get('NIXBOT_GITHUB_SECRET').encode('utf-8')
+    key = app.config.get('NIXBORG_GITHUB_SECRET').encode('utf-8')
     comp_signature = "sha1=" + hmac.new(key, request.get_data(), hashlib.sha1).hexdigest()
     if not hmac.compare_digest(signature.encode('utf-8'), comp_signature.encode('utf-8')):
         app.logger.error(f'HMAC of github webhook is incorrect')
@@ -31,10 +31,10 @@ def github_webhook():
 
     event = request.headers['X-GitHub-Event']
     payload = request.get_json()
-    bot_name = app.config.get('NIXBOT_BOT_NAME')
+    bot_name = app.config.get('NIXBORG_BOT_NAME')
 
     repo = payload['repository']['full_name']
-    configured_repo = app.config.get('NIXBOT_REPO')
+    configured_repo = app.config.get('NIXBORG_REPO')
     if repo != configured_repo:
         app.logger.error(f'Repository `{repo}` does not match configured `{configured_repo}`')
         abort(400)

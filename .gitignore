@@ -1,5 +1,5 @@
 /build/
-/nixbot.egg-info/
+/nixborg.egg-info/
 /result
 __pycache__
 development.cfg

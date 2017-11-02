@@ -25,9 +25,9 @@ tests_require = [
   'setuptools_scm', 'pytest-runner',  # FIXME needed for pypi2nix
 ]
 
-setup(name='nixbot',
+setup(name='nixborg',
       version='0.0',
-      description='nixbot',
+      description='nixborg',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
           "Programming Language :: Python",
@@ -36,7 +36,7 @@ setup(name='nixbot',
       ],
       entry_points={
           'console_scripts': [
-              'nixbot-receiver = nixbot.receiver:main',
+              'nixborg-receiver = nixborg.receiver:main',
           ]
       },
       author='',

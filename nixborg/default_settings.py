@@ -1,0 +1,15 @@
+NIXBORG_BOT_NAME = 'nixborg'
+NIXBORG_REPO = 'nixos/nixpkgs'
+NIXBORG_PR_REPO = 'mayflower/nixpkgs-pr'
+NIXBORG_PUBLIC_URL = 'https://bot.nixos.community'
+NIXBORG_REPO_DIR = '/var/lib/nixborg/repositories'
+NIXBORG_HYDRA_PROJECT = 'nixos'
+NIXBORG_NIXEXPR_PATH = 'nixos/release-small.nix'
+NIXBORG_GITHUB_TOKEN = '<insert github token>'
+NIXBORG_GITHUB_SECRET = 'justnotsorandom'
+NIXBORG_GITHUB_WRITE_COMMENTS = True
+NIXBORG_CELERY_BROKER_URL = 'redis://localhost:6379'
+NIXBORG_CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERYD_LOG_FORMAT = "[%(asctime)s: %(levelname)s/%(processName)s/%(name)s] %(message)s"
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_DATABASE_URI = 'sqlite:///var/lib/nixborg/db.sqlite'

@@ -49,8 +49,8 @@ class HydraJobsetManagerHandler(BaseHTTPRequestHandler):
 
     def check_token(self):
         return hmac.compare_digest(
-            hmac.new(os.environ['NIXBOT_RECEIVER_KEY'].encode('utf-8'), self.body).hexdigest(),
-            self.headers.get('X-Nixbot-HMAC')
+            hmac.new(os.environ['NIXBORG_RECEIVER_KEY'].encode('utf-8'), self.body).hexdigest(),
+            self.headers.get('X-Nixborg-HMAC')
         )
 
     def parse_json_body(self):
@@ -80,8 +80,8 @@ class HydraJobsetManagerHandler(BaseHTTPRequestHandler):
 
 def main():
     server_address = (
-        os.environ.get('NIXBOT_RECEIVER_ADDRESS', '127.0.0.1'),
-        int(os.environ.get('NIXBOT_RECEIVER_PORT', 7000))
+        os.environ.get('NIXBORG_RECEIVER_ADDRESS', '127.0.0.1'),
+        int(os.environ.get('NIXBORG_RECEIVER_PORT', 7000))
     )
     httpd = HTTPServer(server_address, HydraJobsetManagerHandler)
     httpd.serve_forever()
