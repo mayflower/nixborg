@@ -1,5 +1,6 @@
-NIXBOT_BOT_NAME = 'nixbot'
+NIXBOT_BOT_NAME = 'nixborg'
 NIXBOT_REPO = 'nixos/nixpkgs'
+NIXBOT_PR_REPO = 'mayflower/nixpkgs-pr'
 NIXBOT_PUBLIC_URL = 'https://bot.nixos.community'
 NIXBOT_REPO_DIR = '/var/lib/nixbot/repositories'
 NIXBOT_HYDRA_PROJECT = 'nixos'

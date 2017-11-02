@@ -8,7 +8,8 @@ log = logging.getLogger(__name__)
 def merge_push(pr, ref, base, config):
     USER = config.get('NIXBOT_BOT_NAME')
     TOKEN = config.get('NIXBOT_GITHUB_TOKEN')
-    REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBOT_REPO')
+    REPO = f"https://github.com/" + config.get('NIXBOT_REPO')
+    PR_REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBOT_PR_REPO')
     REPO_PATH = config.get('NIXBOT_REPO_DIR')
 
     path = Path(REPO_PATH, "nixpkgs.git")
@@ -19,8 +20,10 @@ def merge_push(pr, ref, base, config):
         logged_call(f'git clone {REPO} {path}')
 
     GIT = f'git -C {path}'
-    logged_call(f'{GIT} remote remove origin || true')
-    logged_call(f'{GIT} remote add origin {REPO}')
+    logged_call(f'{GIT} remote add origin {REPO} || true')
+    logged_call(f'{GIT} remote set-url origin {REPO}')
+    logged_call(f'{GIT} remote add pr {PR_REPO} || true')
+    logged_call(f'{GIT} remote set-url pr {PR_REPO}')
 
     log.info('Fetching base repository including PRs')
     logged_call(f'{GIT} config --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"')
@@ -33,7 +36,7 @@ def merge_push(pr, ref, base, config):
     logged_call(f'{GIT} rebase origin/{base}')
 
     log.info(f'Pushing PR branch to PR repository')
-    logged_call(f'{GIT} push -f origin HEAD:pr-{pr}')
+    logged_call(f'{GIT} push -f pr HEAD:pr-{pr}')
 
 
 def logged_call(args):

@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 class HydraJobsets(object):
     def __init__(self, config):
         self.hydra_project = config.get('NIXBOT_HYDRA_PROJECT')
-        self.repo = 'https://github.com/' + config.get('NIXBOT_REPO')
+        self.repo = 'https://github.com/' + config.get('NIXBOT_PR_REPO')
         self.receiver = config.get('NIXBOT_RECEIVER_URL')
         self.key = config.get('NIXBOT_RECEIVER_KEY')
         self.nixexpr_path = config.get('NIXBOT_NIXEXPR_PATH')
