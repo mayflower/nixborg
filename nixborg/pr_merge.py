@@ -20,6 +20,8 @@ def merge_push(pr, ref, base, config):
         logged_call(f'git clone {REPO} {path}')
 
     GIT = f'git -C {path}'
+    logged_call(f'git config --global user.email "nixborg@nixos.community"')
+    logged_call(f'git config --global user.name "{USER}"')
     logged_call(f'{GIT} remote add origin {REPO} || true')
     logged_call(f'{GIT} remote set-url origin {REPO}')
     logged_call(f'{GIT} remote add pr {PR_REPO} || true')
@@ -31,6 +33,7 @@ def merge_push(pr, ref, base, config):
 
     log.info(f'Checking out PR {pr} at ref {ref}')
     logged_call(f'{GIT} branch -f pr-{pr} {ref}')
+    logged_call(f'{GIT} reset --hard {ref}')
     log.info(f'Rebasing PR on top of {base}')
     logged_call(f'{GIT} rebase --abort || true')
     logged_call(f'{GIT} rebase origin/{base}')
