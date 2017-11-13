@@ -1,6 +1,7 @@
 from pathlib import Path
 import logging
 import subprocess
+from billiard import current_process
 
 log = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ def merge_push(pr, ref, base, config):
     TOKEN = config.get('NIXBORG_GITHUB_TOKEN')
     REPO = f"https://github.com/" + config.get('NIXBORG_REPO')
     PR_REPO = f"https://{TOKEN}@github.com/" + config.get('NIXBORG_PR_REPO')
-    REPO_PATH = config.get('NIXBORG_REPO_DIR')
+    REPO_PATH = config.get('NIXBORG_REPO_DIR') + str(current_process().index)
 
     path = Path(REPO_PATH, "nixpkgs.git")
 
