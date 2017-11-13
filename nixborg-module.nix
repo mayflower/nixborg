@@ -197,8 +197,8 @@ in {
             src = pkgs.fetchFromGitHub {
               owner = "mayflower";
               repo = "hydra";
-              rev = "b07323d3dace64262e92506dd62547cf9c428953";
-              sha256 = "1p4dvq129qn0n8rxsywi1d5315wq656xvw9vmdgrw94cb6v383pq";
+              rev = "2979a6b4a824e98ec3567bb9725cb24a18f85242";
+              sha256 = "0fxyn44bq8h8jnjjrsy4ji7ybq9k77xhp14l9gqnq216nl4fl086";
             };
           }))
         ];
